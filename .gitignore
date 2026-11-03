@@ -1,0 +1,8 @@
+# 本地工具产物
+.screenshots/
+.trae-html-share-packages/
+
+# 系统文件
+Thumbs.db
+.DS_Store
+*.log

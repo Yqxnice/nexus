@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Nexus 新标签页",
+  "short_name": "Nexus",
+  "version": "1.0.0",
+  "description": "可离线使用的极简新标签页：图标宫格、壁纸、时钟、搜索与待办。",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": ["storage", "favicon"],
+  "host_permissions": ["https://v1.hitokoto.cn/*"],
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  }
+}

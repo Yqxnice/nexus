@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f3ee">
+  <title>Nexus 新标签页</title>
+  <link rel="icon" href="assets/icons/icon32.png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script src="js/vendor/sortable.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="wallpaper" id="wallpaper" data-wallpaper="paper" aria-hidden="true"></div>
+
+  <div class="app" id="app">
+    <nav class="rail" id="category-rail" aria-label="站点分类">
+      <div class="rail__brand" aria-hidden="true"><img src="assets/icons/icon48.png" alt=""></div>
+      <div class="rail__items" id="rail-items"></div>
+      <div class="rail__actions">
+        <button type="button" class="rail__action" id="btn-todos" title="打开待办清单" aria-label="待办"></button>
+        <button type="button" class="rail__action" id="btn-theme" title="当前主题：跟随系统，点击切换" aria-label="切换主题"></button>
+        <button type="button" class="rail__action" id="btn-settings" title="打开设置" aria-label="设置"></button>
+      </div>
+    </nav>
+
+    <div class="center-stage">
+      <div class="clock" aria-label="当前时间">
+        <div class="clock__time">
+          <span id="clock-hm">09:04</span>
+          <span class="clock__seconds" id="clock-sec">47</span>
+        </div>
+        <div class="clock__date" id="clock-date">2026年11月3日 星期二</div>
+      </div>
+
+      <form class="search" id="search-form" role="search">
+        <label class="search__engine">
+          <span class="sr-only">搜索引擎</span>
+          <select id="engine-select" aria-label="搜索引擎"><option value="baidu">百度</option><option value="bing">Bing</option><option value="google">Google</option><option value="sogou">搜狗</option><option value="duckduckgo">DuckDuckGo</option></select>
+        </label>
+        <input class="search__input" id="search-input" type="text" autocomplete="off" spellcheck="false" placeholder="搜索，或输入网址后回车" aria-label="搜索或输入网址">
+        <button class="search__submit" type="submit">搜索</button>
+      </form>
+    </div>
+
+    <main class="workspace">
+      <section class="category-view shortcut-grid" id="shortcut-grid" data-group-id="default" aria-live="polite"></section>
+    </main>
+
+    <footer class="hitokoto" id="hitokoto" role="button" tabindex="0" title="点击换一句" aria-label="一言，点击换一句"></footer>
+
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+
+  <aside class="drawer" id="settings-drawer" aria-labelledby="settings-title" aria-hidden="true" inert="">
+    <div class="drawer__head">
+      <div>
+        <h2 class="drawer__title" id="settings-title">设置</h2>
+        <p class="drawer__sub">修改后自动保存</p>
+      </div>
+      <button type="button" class="btn btn--icon" id="btn-close-settings" aria-label="关闭设置">×</button>
+    </div>
+
+    <div class="drawer__body">
+      <section class="settings-group" id="settings-appearance">
+        <h3 class="settings-group__title">外观</h3>
+        <div class="settings-row">
+          <span class="settings-row__label">主题</span>
+          <div class="segmented" id="theme-segmented" role="group" aria-label="主题">
+            <button type="button" data-theme-value="auto" class="is-active" aria-pressed="true">跟随系统</button>
+            <button type="button" data-theme-value="light" aria-pressed="false">浅色</button>
+            <button type="button" data-theme-value="dark" aria-pressed="false">深色</button>
+          </div>
+        </div>
+        <div class="settings-block">
+          <span class="settings-row__label">壁纸</span>
+          <div class="wallpaper-picker" id="wallpaper-picker"><button type="button" class="wp-option" data-wallpaper="paper" title="使用壁纸：纸面" aria-pressed="true"><span class="wp-swatch" data-wallpaper="paper"></span><span class="wp-name">纸面</span></button><button type="button" class="wp-option" data-wallpaper="aurora" title="使用壁纸：极光" aria-pressed="false"><span class="wp-swatch" data-wallpaper="aurora"></span><span class="wp-name">极光</span></button><button type="button" class="wp-option" data-wallpaper="ocean" title="使用壁纸：深海" aria-pressed="false"><span class="wp-swatch" data-wallpaper="ocean"></span><span class="wp-name">深海</span></button><button type="button" class="wp-option" data-wallpaper="sunset" title="使用壁纸：日落" aria-pressed="false"><span class="wp-swatch" data-wallpaper="sunset"></span><span class="wp-name">日落</span></button><button type="button" class="wp-option" data-wallpaper="forest" title="使用壁纸：森林" aria-pressed="false"><span class="wp-swatch" data-wallpaper="forest"></span><span class="wp-name">森林</span></button><button type="button" class="wp-option" data-wallpaper="grape" title="使用壁纸：紫夜" aria-pressed="false"><span class="wp-swatch" data-wallpaper="grape"></span><span class="wp-name">紫夜</span></button><button type="button" class="wp-option" data-wallpaper="graphite" title="使用壁纸：石墨" aria-pressed="false"><span class="wp-swatch" data-wallpaper="graphite"></span><span class="wp-name">石墨</span></button><button type="button" class="wp-option wp-option--custom" data-wallpaper="custom" title="使用本地图片壁纸" aria-pressed="false"><span class="wp-swatch wp-swatch--custom"></span><span class="wp-name">本地图片</span><span class="wp-option__remove" title="移除自定义壁纸" role="button" aria-label="移除自定义壁纸" hidden="">×</span></button><input type="file" accept="image/*" hidden=""></div>
+        </div>
+      </section>
+
+      <section class="settings-group" id="settings-search">
+        <h3 class="settings-group__title">搜索</h3>
+        <label class="settings-field">
+          <span>默认搜索引擎</span>
+          <select id="settings-engine"><option value="baidu">百度</option><option value="bing">Bing</option><option value="google">Google</option><option value="sogou">搜狗</option><option value="duckduckgo">DuckDuckGo</option></select>
+        </label>
+        <div class="settings-row">
+          <span class="settings-row__label">打开方式</span>
+          <div class="segmented" id="open-mode-segmented" role="group" aria-label="打开方式">
+            <button type="button" data-open-mode="new" class="is-active" aria-pressed="true">新标签页</button>
+            <button type="button" data-open-mode="current" aria-pressed="false">当前页</button>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <span class="settings-row__label">站点图标</span>
+          <div class="segmented" id="icon-style-segmented" role="group" aria-label="站点图标样式">
+            <button type="button" data-icon-style="favicon" class="is-active" aria-pressed="true">真实图标</button>
+            <button type="button" data-icon-style="letter" aria-pressed="false">字母磁贴</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-group" id="settings-hitokoto">
+        <h3 class="settings-group__title">一言</h3>
+        <div class="settings-block">
+          <span class="settings-row__label">分类（不选 = 全部）</span>
+          <div class="chip-row" id="hitokoto-cats" role="group" aria-label="一言分类"></div>
+        </div>
+        <p class="settings-tip">底部一言来自 hitokoto.cn，点击底部的句子可换一句。</p>
+      </section>
+
+      <section class="settings-group" id="settings-shortcuts">
+        <h3 class="settings-group__title">常用站点</h3>
+        <div class="settings-row">
+          <span class="settings-row__label">分类</span>
+          <button type="button" class="btn btn--pill" id="settings-add-group">添加分类</button>
+        </div>
+        <p class="settings-tip">在左侧导轨点击切换分类，右键点击分类图标可添加站点、编辑或删除分类；直接拖拽图标可在当前分类内排序，编辑站点时可更换所属分类。</p>
+      </section>
+
+      <section class="settings-group">
+        <h3 class="settings-group__title">数据</h3>
+        <div class="settings-row">
+          <span class="settings-row__label">恢复默认</span>
+          <button type="button" class="btn btn--danger" id="btn-reset">重置全部数据</button>
+        </div>
+        <p class="settings-tip" id="settings-storage">存储位置：localStorage（浏览器预览回退）</p>
+      </section>
+
+      <section class="settings-group">
+        <h3 class="settings-group__title">关于</h3>
+        <p class="settings-tip">Nexus 新标签页 · 纯原生 MV3 骨架。站点图标按「Chrome 本地图标库 → 站点 /favicon.ico → 字母磁贴」逐级回退，不经过第三方服务，仅使用 storage 与 favicon 权限。</p>
+      </section>
+    </div>
+  </aside>
+
+  <div class="scrim" id="todos-scrim"></div>
+
+  <aside class="drawer drawer--todos" id="todos-drawer" aria-labelledby="todos-title" aria-hidden="true">
+    <div class="drawer__head">
+      <div>
+        <h2 class="drawer__title" id="todos-title">待办</h2>
+        <p class="drawer__sub" id="todo-summary">0 项</p>
+      </div>
+      <button type="button" class="btn btn--icon" id="btn-close-todos" aria-label="关闭待办">×</button>
+    </div>
+
+    <div class="drawer__body">
+      <form class="todo-form" id="todo-form">
+        <input class="todo-input" id="todo-input" type="text" maxlength="80" autocomplete="off" placeholder="添加一件待办…" aria-label="新的待办">
+        <button class="todo-add" type="submit" aria-label="添加待办">+</button>
+      </form>
+      <ul class="todo-list" id="todo-list"></ul>
+      <p class="todo-empty" id="todo-empty">暂无待办，添加一件开始吧。</p>
+      <div class="drawer__foot">
+        <button type="button" class="btn btn--text" id="todo-clear" disabled="">清除已完成</button>
+        <div class="todo-progress" aria-hidden="true"><span id="todo-progress-bar" style="width: 0%;"></span></div>
+      </div>
+      <p class="settings-tip">所有数据保存在本机，不上传。</p>
+    </div>
+  </aside>
+
+  <dialog class="dialog" id="group-dialog">
+    <form class="dialog__form" id="group-form" novalidate="">
+      <h2 class="dialog__title" id="group-dialog-title">添加分类</h2>
+      <label class="field">
+        <span>分类名称</span>
+        <input id="group-name" type="text" maxlength="20" autocomplete="off" placeholder="例如：开发工具">
+      </label>
+      <div class="field">
+        <span id="group-icon-label">图标</span>
+        <div class="icon-picker" id="group-icon-picker" role="group" aria-labelledby="group-icon-label"></div>
+      </div>
+      <div class="dialog__actions">
+        <span class="dialog__spacer"></span>
+        <button type="button" class="btn btn--ghost" id="group-cancel">取消</button>
+        <button type="submit" class="btn btn--primary">添加</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="shortcut-dialog">
+    <form class="dialog__form" id="shortcut-form" novalidate="">
+      <h2 class="dialog__title" id="shortcut-dialog-title">添加站点</h2>
+      <label class="field">
+        <span>名称</span>
+        <input id="shortcut-title" type="text" maxlength="40" autocomplete="off" placeholder="例如：哔哩哔哩">
+      </label>
+      <label class="field">
+        <span>网址</span>
+        <input id="shortcut-url" type="text" maxlength="800" autocomplete="off" spellcheck="false" placeholder="https://example.com">
+      </label>
+      <p class="field__error" id="shortcut-error" hidden="">请输入有效的 http 或 https 网址。</p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--danger" id="shortcut-delete" hidden="">删除</button>
+        <span class="dialog__spacer"></span>
+        <button type="button" class="btn btn--ghost" id="shortcut-cancel">取消</button>
+        <button type="submit" class="btn btn--primary" id="shortcut-save">添加</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog dialog--confirm" id="confirm-dialog">
+    <form method="dialog" class="dialog__form">
+      <h2 class="dialog__title" id="confirm-title">确认</h2>
+      <p class="dialog__text" id="confirm-text">此操作无法撤销。</p>
+      <div class="dialog__actions">
+        <span class="dialog__spacer"></span>
+        <button class="btn btn--ghost" value="cancel">取消</button>
+        <button class="btn btn--danger" id="confirm-ok" value="confirm">确认</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="context-menu" id="shortcut-menu" role="menu" aria-label="站点操作" hidden="">
+    <button type="button" role="menuitem" data-action="open">打开</button>
+    <button type="button" role="menuitem" data-action="edit">编辑</button>
+    <button type="button" role="menuitem" data-action="remove">删除</button>
+  </div>
+
+  <div class="context-menu" id="group-menu" role="menu" aria-label="分类操作" hidden="">
+    <button type="button" role="menuitem" data-action="add">添加站点</button>
+    <button type="button" role="menuitem" data-action="edit">编辑分类</button>
+    <button type="button" role="menuitem" data-action="remove">删除分类</button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+
+
+
+</body></html>
